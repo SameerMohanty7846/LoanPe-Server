@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/SameerMohanty7846/LoanPe-Server#readme",
   "dependencies": {
+    "dotenv": "^17.2.1",
     "express": "^5.1.0"
   }
 }
