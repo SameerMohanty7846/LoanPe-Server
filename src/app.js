@@ -1,8 +1,9 @@
-
 import express from 'express'
-import userRoutes from './routes/UserRoutes.js';
+import userRouter from './routes/UserRoutes.js';
+
 const app=express()
 app.use(express.json())
-app.use('/auth',userRoutes)
+app.use('/loanpe',userRouter)
+
 
 export default app;
