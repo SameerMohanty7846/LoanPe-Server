@@ -1,9 +1,13 @@
 import express from "express";
-import {getAllUsers, getUserById, registerUser} from '../controllers/user.controller.js'
+import {changePassword, getAllUsers, getUserById, registerUser, updateUserInfo} from '../controllers/user.controller.js'
 const userRouter=express.Router()
-userRouter.post('/register-user',registerUser)
+userRouter.post('/user/register',registerUser)
+userRouter.post('/user/register',registerUser)
 userRouter.get('/users',getAllUsers)
-userRouter.get('/users/:id',getUserById)
+userRouter.get('/user/:id',getUserById)
+userRouter.patch('/user/update/:id',updateUserInfo)
+userRouter.get('/user/chage-password',changePassword)
+
 
 
 
