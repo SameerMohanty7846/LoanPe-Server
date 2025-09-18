@@ -3,9 +3,9 @@ import { createLoan, deleteLoan, getAllLoans, getLoanById, updateLoan } from '..
 
 
 const LoanRouter=express()
-LoanRouter.post('/loan/createloan',createLoan)
-LoanRouter.get('/loan/getall',getAllLoans)
-LoanRouter.get('/loan/getloand/:id',getLoanById)
+LoanRouter.post('/loans/createloan',createLoan)
+LoanRouter.get('/loans/allloans',getAllLoans)
+LoanRouter.get('/loans/:id',getLoanById)
 LoanRouter.put('/loans/update/:id',updateLoan)
 LoanRouter.delete('/loans/delete/:id',deleteLoan)
 

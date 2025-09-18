@@ -31,7 +31,7 @@ export const createLoan= async (req,res)=>{
 }
 export const getAllLoans=async (req,res)=>{
     try{
-        const loand=await LoanProduct.find();
+        const loans=await LoanProduct.find();
         res.status(200).json({
             status:"success",
             message:"Loan fetched Sucessfully",
@@ -72,45 +72,48 @@ export const getLoanById=async (req,res)=>{
     }
 
 }
-export const updateLoan=async (req,res)=>{
-    try{
-        const{id}=req.params
-        const{productName,interestRate,duration,description,eligibilityCriteria}=req.body;
-        if(!productName || !interestRate || !description || !eligibilityCriteria){
-            return res.json({
-                message:"all fields are required"
-            })
-        }
-        const updatedLoan=await LoanProduct.findByIdAndUpdate(
-            id,
+export const updateLoan = async (req, res) => {
+  try {
+    const { id } = req.params;
 
-            {
-                productName,interestRate,duration,description,eligibilityCriteria
-            },
-            {new :true,runValidators:true}
-        )
-        if(!updateLoan){
-            return res.status(404).json({
-                message:"loan not found"
-            })
-        }
-        res.status(200).json({
-            message:"Loan Updated Successfully",
-            data:updatedLoan
-        })
+    // directly take whatever fields user sent in req.body
+    const updateData = req.body;
 
-
-
-
-    }catch(error){
-        console.log('error in update',error)
-        res.status(500).json({
-            message:'Internal Server error'
-
-        })
+    // if no fields are sent at all
+    if (!Object.keys(updateData).length) {
+      return res.status(400).json({
+        message: "At least one field is required to update",
+      });
     }
 
-}
+    const updatedLoan = await LoanProduct.findByIdAndUpdate(
+      id,
+      updateData,
+      {
+        new: true,          // return the updated document
+        runValidators: true // ensure validation rules still apply
+      }
+    );
+
+    if (!updatedLoan) {
+      return res.status(404).json({
+        message: "Loan not found",
+      });
+    }
+
+    res.status(200).json({
+      message: "Loan Updated Successfully",
+      data: updatedLoan,
+    });
+
+  } catch (error) {
+    console.log("error in update", error);
+    res.status(500).json({
+      message: "Internal Server Error",
+    });
+  }
+};
+
 export const toggleLoanStatus=async (req,res)=>{
     try{
         const{id}=req.params;

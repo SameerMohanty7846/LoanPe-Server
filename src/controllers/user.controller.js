@@ -99,41 +99,41 @@ export const loginUser = async (req, res) => {
 }
 //update name email phone 
 export const updateUserInfo = async (req, res) => {
-    try{
-        const{id}=req.params
-        const{name,email,phone}=req.body;
-        if(!name ||!email || !phone){
-            return res.status(400)
-            .json({
-                message:"all fields are required"
-            })
-        }
+  try {
+    const { id } = req.params;
+    const { name, email, phone } = req.body;
 
-        const updatedUser= await User.findByIdAndUpdate(
-            id,
-            {name,email,phone},
-            {new :true,runValidators:true,select:"-pasword"}
-         ) 
-          if(!updatedUser){
-             res.status(400).json({
-                message:"user not found"
-             })     
-          }
-
-          res.status(200).json({
-            message:"User info updated successfuly",
-            user:updatedUser
-          })
-
-
-    }catch(err){
-           res.status(500).json({
-            message:"Internal Server Error",
-            
-          })
+    if (!name || !email || !phone) {
+      return res.status(400).json({
+        message: "All fields are required",
+      });
     }
 
-}
+    // First update
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      { name, email, phone },
+      { new: true, runValidators: true }
+    ).select("-password -__v"); // 👈 exclude password and version key here
+
+    if (!updatedUser) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+    res.status(200).json({
+      message: "User info updated successfully",
+      user: updatedUser,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      message: "Internal Server Error",
+    });
+  }
+};
+
 export const changePassword = async (req, res) => {
     try{
         const{id}=req.params;

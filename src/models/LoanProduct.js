@@ -43,3 +43,4 @@ const loanProductSchema=new mongoose.Schema({
 
 
 const LoanProduct=mongoose.model('loanproducts',loanProductSchema,'loanproducts')
+export default LoanProduct

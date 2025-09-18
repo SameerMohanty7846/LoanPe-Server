@@ -33,7 +33,7 @@ export const applyLoan = async (req, res) => {
     }
 
 }
-export const getAllLoans = async (req, res) => {
+export const getAllLoanApplications = async (req, res) => {
     try {
         const applications = await LoanApplication.find()
             .populate("applicant", "name email")
@@ -50,7 +50,7 @@ export const getAllLoans = async (req, res) => {
         })
     }
 }
-export const updateLoanStatus = async (req, res) => {
+export const updateLoanApplicationStatus = async (req, res) => {
     try {
         const{id}=req.params;
         const{status}=req.body;
