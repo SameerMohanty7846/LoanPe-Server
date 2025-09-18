@@ -9,5 +9,7 @@ LoanRouter.get('/loans/:id',getLoanById)
 LoanRouter.put('/loans/update/:id',updateLoan)
 LoanRouter.delete('/loans/delete/:id',deleteLoan)
 
+// http://localhost:7777/loanpe/loans/allloans
+
 
 export default LoanRouter;

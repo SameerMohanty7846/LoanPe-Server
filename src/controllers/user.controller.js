@@ -174,3 +174,5 @@ export const changePassword = async (req, res) => {
     }
 
 }
+
+// http://localhost:7777/loanpe/loans/update/68cb659607543be5bf98283d
