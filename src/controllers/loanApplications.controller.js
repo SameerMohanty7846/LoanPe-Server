@@ -44,7 +44,7 @@ export const getAllLoanApplications = async (req, res) => {
 
     } catch (err) {
         console.log(`error in fetchin loan applications`, err)
-        res.status(500)
+        res.status(500).
         json({
             message: "Internal Server Error"
         })
@@ -133,3 +133,6 @@ export const getLoanApplicationByid = async (req, res) => {
         })
     }
 }
+
+//  http://localhost:7777/loanpe/loanapplications/apply
+//  http://localhost:7777/loanpe/loanapplications/allapplications
