@@ -4,6 +4,7 @@ import LoanRouter from './routes/LoanRoutes.js';
 import LoanApplicationRoutes from './routes/LoanApplicationRoutes.js';
 import cors from 'cors';
 import authRouter from './routes/AuthRoutes.js';
+import cookieParser from 'cookie-parser';
 
 const app=express()
 app.use(express.json())
@@ -17,6 +18,7 @@ app.use(cors({
 }));
 
 
+app.use(cookieParser());
 
 
 

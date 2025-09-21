@@ -109,27 +109,31 @@ export const changePassword = async (req, res) => {
 }
  
 //get current user
-export const getCurrentUser=async (req,res)=>{
-    try{
-        const userId=req.user.id;
-        const user=await findById(userId).select('-password');
-        if(!user){
-            return res.status(404).json({
-                message:"User not found"
-            })
-        }
 
-        return res.status(200).json({
-            user
-        })
-    }catch(err){
-        console.log(`internal server error`)
-        res.status(500).json({
-            message:"Internal Server Error",
-            error:err.message
-        })
+export const getCurrentUser = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    // Correct way to query MongoDB using Mongoose
+    const user = await User.findById(userId).select('-password');
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found"
+      });
     }
-}
+
+    return res.status(200).json({
+      user
+    });
+  } catch (err) {
+    console.error(`Internal server error: ${err.message}`);
+    res.status(500).json({
+      message: "Internal Server Error",
+      error: err.message
+    });
+  }
+};
 
 //logout user clear cookies
 export const logout=async (req,res)=>{
