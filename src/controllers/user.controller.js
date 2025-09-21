@@ -38,6 +38,7 @@ export const registerUser = async (req, res) => {
         })
 
 
+        console.log(`user registered`)
         res.status(201).json({
             status: "success",
             message: "user created successfully",
@@ -94,9 +95,7 @@ export const getUserById = async (req, res) => {
     }
 
 }
-export const loginUser = async (req, res) => {
 
-}
 //update name email phone 
 export const updateUserInfo = async (req, res) => {
   try {
@@ -134,45 +133,7 @@ export const updateUserInfo = async (req, res) => {
   }
 };
 
-export const changePassword = async (req, res) => {
-    try{
-        const{id}=req.params;
-        const{oldPassword,newPassword}=req.body;
-        if(!oldPassword ||!newPassword){
-            return res.status(400).json({
-                message:"all fields are required"
-            })
-        }
-        //check weather user exist or not
-        const user=await User.findById(id);
-        if(!user){
-            return res.status(400).json({
-                message:"User not present"
-            })
-        }
-        //compare old password
-        const isMatch=await bcrypt.compare(oldPassword,user.password);
-        if(!isMatch){
-            return res.json(400).json({
-                message:"Old Password is incorrect"
-            })
-        }
-        //hash new password
-        const hashedPassword=await bcrypt.hash(newPassword,10)
-        user.password=hashedPassword;
-        await user.save();
 
-        res.status(200).json({
-            message:"Password changed successfully"
-        })
-
-
-    }catch(err){
-        res.status(500).json({
-            message:"internal server error"
-        })
-    }
-
-}
-
-// http://localhost:7777/loanpe/loans/update/68cb659607543be5bf98283d
+//http://localhost:7777/loanpe/loans/update/68cb659607543be5bf98283d
+//http://localhost:7777/loanpe/users/login
+//http://localhost:7777/loanpe/users/register 
