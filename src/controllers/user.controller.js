@@ -20,7 +20,7 @@ export const registerUser = async (req, res) => {
 
         if (existingUser) {
             return res.status(400).json({
-                message: "Email ot Phone already exist"
+                message: "Email or Phone already exist"
             })
         }
         //createing salt and hasing password
