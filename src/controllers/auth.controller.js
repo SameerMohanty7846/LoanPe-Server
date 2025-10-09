@@ -109,31 +109,66 @@ export const changePassword = async (req, res) => {
 }
  
 //get current user
+// export const getCurrentUser = async (req, res) => {
+//   try {
+//     const userId = req.user.id;
+
+//     // Correct way to query MongoDB using Mongoose
+//     const user = await User.findById(userId).select('-password');
+
+//     if (!user) {
+//       return res.status(404).json({
+//         message: "User not found"
+//       });
+//     }
+
+//     return res.status(200).json({
+//       user
+//     });
+//   } catch (err) {
+//     console.error(`Internal server error: ${err.message}`);
+//     res.status(500).json({
+//       message: "Internal Server Error",
+//       error: err.message
+//     });
+//   }
+// };
 
 export const getCurrentUser = async (req, res) => {
   try {
     const userId = req.user.id;
 
-    // Correct way to query MongoDB using Mongoose
-    const user = await User.findById(userId).select('-password');
+    // Fetch user from DB without password
+    const user = await User.findById(userId).select("-password");
 
     if (!user) {
       return res.status(404).json({
-        message: "User not found"
+        message: "User not found",
       });
     }
 
+    const baseUrl = `${req.protocol}://${req.get("host")}/uploads/users`;
+    const userObj = user.toObject();
+
+    // Convert stored filenames to full URLs
+    if (userObj.profilePic) userObj.profilePic = `${baseUrl}/${userObj.profilePic}`;
+    if (userObj.idProofFront) userObj.idProofFront = `${baseUrl}/${userObj.idProofFront}`;
+    if (userObj.idProofBack) userObj.idProofBack = `${baseUrl}/${userObj.idProofBack}`;
+    if (userObj.incomeProof) userObj.incomeProof = `${baseUrl}/${userObj.incomeProof}`;
+
     return res.status(200).json({
-      user
+      user: userObj,
     });
   } catch (err) {
     console.error(`Internal server error: ${err.message}`);
     res.status(500).json({
       message: "Internal Server Error",
-      error: err.message
+      error: err.message,
     });
   }
 };
+
+
 
 //logout user clear cookies
 export const logout=async (req,res)=>{
